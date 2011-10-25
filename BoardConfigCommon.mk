@@ -14,6 +14,9 @@
 
 -include device/htc/msm7x30-common/BoardConfigCommon.mk
 
+# inherit from common msm7x30 Recovery
+-include device/htc/7x30-recovery/BoardConfigCommon.mk
+
 TARGET_NO_BOOTLOADER := true
 
 TARGET_BOARD_PLATFORM := msm7x30

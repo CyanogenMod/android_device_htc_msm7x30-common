@@ -40,6 +40,8 @@ WIFI_DRIVER_MODULE_ARG      := "firmware_path=/vendor/firmware/fw_bcm4329.bin nv
 WIFI_DRIVER_MODULE_NAME     := "bcm4329"
 
 BOARD_USES_GENERIC_AUDIO := false
+BOARD_USES_QCOM_VOIPMUTE := true
+BOARD_USES_QCOM_RESETALL := true
 
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true

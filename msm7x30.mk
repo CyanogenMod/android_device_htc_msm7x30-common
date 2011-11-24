@@ -32,6 +32,8 @@ PRODUCT_COPY_FILES += \
     device/htc/msm7x30-common/media_profiles.xml:system/etc/media_profiles.xml
 
 PRODUCT_PACKAGES += \
+    audio.a2dp.default \
+    libaudioutils \
     librs_jni \
     gralloc.msm7x30 \
     overlay.default \

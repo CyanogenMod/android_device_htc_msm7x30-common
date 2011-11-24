@@ -25,7 +25,9 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/base/data/etc/android.hardware.touchscreen.multitouch.distinct.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.distinct.xml \
     frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
+    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+    frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
 # media config xml file
 PRODUCT_COPY_FILES += \
@@ -34,7 +36,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
     libaudioutils \
-    librs_jni \
     gralloc.msm7x30 \
     overlay.default \
     libOmxCore \
@@ -42,11 +43,33 @@ PRODUCT_PACKAGES += \
     libOmxVdec \
     com.android.future.usb.accessory
 
+# Live Wallpapers
+PRODUCT_PACKAGES += \
+    LiveWallpapers \
+    LiveWallpapersPicker \
+    VisualizationWallpapers \
+    librs_jni
+
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+    make_ext4fs \
+    setup_fs
+
+# for bugmailer
+ifneq ($(TARGET_BUILD_VARIANT),user)
+    PRODUCT_PACKAGES += send_bug
+    PRODUCT_COPY_FILES += \
+        system/extras/bugmailer/bugmailer.sh:system/bin/bugmailer.sh \
+        system/extras/bugmailer/send_bug:system/bin/send_bug
+endif
+
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 # use high-density artwork where available
 PRODUCT_LOCALES += hdpi
 
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0

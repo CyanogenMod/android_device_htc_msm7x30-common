@@ -15,11 +15,11 @@
 #define _MSM_MDP_H_
 
 #include <linux/types.h>
+#include <linux/fb.h>
 
 #define MSMFB_IOCTL_MAGIC 'm'
 #define MSMFB_GRP_DISP          _IOW(MSMFB_IOCTL_MAGIC, 1, unsigned int)
 #define MSMFB_BLIT              _IOW(MSMFB_IOCTL_MAGIC, 2, unsigned int)
-#ifdef CONFIG_MSM_MDP40
 #define MSMFB_SUSPEND_SW_REFRESHER _IOW(MSMFB_IOCTL_MAGIC, 128, unsigned int)
 #define MSMFB_RESUME_SW_REFRESHER _IOW(MSMFB_IOCTL_MAGIC, 129, unsigned int)
 #define MSMFB_CURSOR _IOW(MSMFB_IOCTL_MAGIC, 130, struct fb_cursor)
@@ -42,36 +42,60 @@
 #define MSMFB_OVERLAY_PLAY_ENABLE     _IOW(MSMFB_IOCTL_MAGIC, 141, unsigned int)
 #define MSMFB_OVERLAY_BLT       _IOWR(MSMFB_IOCTL_MAGIC, 142, \
 						struct msmfb_overlay_blt)
-#define MSMFB_GET_GAMMA_CURVY _IOWR(MSMFB_IOCTL_MAGIC, 143, struct gamma_curvy)
-#define MSMFB_HISTOGRAM_START _IO(MSMFB_IOCTL_MAGIC, 144)
-#define MSMFB_HISTOGRAM_STOP  _IO(MSMFB_IOCTL_MAGIC, 145)
-#define MSMFB_OVERLAY_CHANGE_ZORDER_VG_PIPES	_IOW(MSMFB_IOCTL_MAGIC, 146, unsigned int)
+#define MSMFB_OVERLAY_BLT_OFFSET     _IOW(MSMFB_IOCTL_MAGIC, 143, unsigned int)
+#define MSMFB_HISTOGRAM_START	_IO(MSMFB_IOCTL_MAGIC, 144)
+#define MSMFB_HISTOGRAM_STOP	_IO(MSMFB_IOCTL_MAGIC, 145)
+#define MSMFB_NOTIFY_UPDATE	_IOW(MSMFB_IOCTL_MAGIC, 146, unsigned int)
+
 #define MSMFB_OVERLAY_3D       _IOWR(MSMFB_IOCTL_MAGIC, 147, \
 						struct msmfb_overlay_3d)
 
-#endif
+#define MSMFB_MIXER_INFO       _IOWR(MSMFB_IOCTL_MAGIC, 148, \
+						struct msmfb_mixer_info_req)
+#define MSMFB_OVERLAY_PLAY_WAIT _IOWR(MSMFB_IOCTL_MAGIC, 149, \
+						struct msmfb_overlay_data)
+
+#define MSMFB_WRITEBACK_INIT _IO(MSMFB_IOCTL_MAGIC, 150)
+#define MSMFB_WRITEBACK_REGISTER_BUFFER _IOW(MSMFB_IOCTL_MAGIC, 151, \
+						struct msmfb_writeback_data)
+#define MSMFB_WRITEBACK_UNREGISTER_BUFFER _IOW(MSMFB_IOCTL_MAGIC, 152, \
+						struct msmfb_writeback_data)
+#define MSMFB_WRITEBACK_QUEUE_BUFFER _IOW(MSMFB_IOCTL_MAGIC, 153, \
+						struct msmfb_data)
+#define MSMFB_WRITEBACK_DEQUEUE_BUFFER _IOW(MSMFB_IOCTL_MAGIC, 154, \
+						struct msmfb_data)
+#define MSMFB_WRITEBACK_TERMINATE _IO(MSMFB_IOCTL_MAGIC, 155)
+
+#define FB_TYPE_3D_PANEL 0x10101010
+#define MDP_IMGTYPE2_START 0x10000
+#define MSMFB_DRIVER_VERSION	0xF9E8D701
 
 enum {
-	MDP_RGB_565,      // RGB 565 planer
-	MDP_XRGB_8888,    // RGB 888 padded
-	MDP_Y_CBCR_H2V2,  // Y and CbCr, pseudo planer w/ Cb is in MSB
-	MDP_ARGB_8888,    // ARGB 888
-	MDP_RGB_888,      // RGB 888 planer
-	MDP_Y_CRCB_H2V2,  // Y and CrCb, pseudo planer w/ Cr is in MSB
-	MDP_YCRYCB_H2V1,  // YCrYCb interleave
-	MDP_Y_CRCB_H2V1,  // Y and CrCb, pseduo planer w/ Cr is in MSB
-	MDP_Y_CBCR_H2V1,   // Y and CrCb, pseduo planer w/ Cr is in MSB
-	MDP_RGBA_8888,    // ARGB 888
-	MDP_BGRA_8888,    // ARGB 888
-	MDP_RGBX_8888,    // RGBX 888
-#ifdef CONFIG_MSM_MDP40
+	NOTIFY_UPDATE_START,
+	NOTIFY_UPDATE_STOP,
+};
+
+enum {
+	MDP_RGB_565,      /* RGB 565 planer */
+	MDP_XRGB_8888,    /* RGB 888 padded */
+	MDP_Y_CBCR_H2V2,  /* Y and CbCr, pseudo planer w/ Cb is in MSB */
+	MDP_ARGB_8888,    /* ARGB 888 */
+	MDP_RGB_888,      /* RGB 888 planer */
+	MDP_Y_CRCB_H2V2,  /* Y and CrCb, pseudo planer w/ Cr is in MSB */
+	MDP_YCRYCB_H2V1,  /* YCrYCb interleave */
+	MDP_Y_CRCB_H2V1,  /* Y and CrCb, pseduo planer w/ Cr is in MSB */
+	MDP_Y_CBCR_H2V1,   /* Y and CrCb, pseduo planer w/ Cr is in MSB */
+	MDP_RGBA_8888,    /* ARGB 888 */
+	MDP_BGRA_8888,	  /* ABGR 888 */
+	MDP_RGBX_8888,	  /* RGBX 888 */
 	MDP_Y_CRCB_H2V2_TILE,  /* Y and CrCb, pseudo planer tile */
 	MDP_Y_CBCR_H2V2_TILE,  /* Y and CbCr, pseudo planer tile */
-#endif
 	MDP_Y_CR_CB_H2V2,  /* Y, Cr and Cb, planar */
+	MDP_Y_CR_CB_GH2V2,  /* Y, Cr and Cb, planar aligned to Android YV12 */
 	MDP_Y_CB_CR_H2V2,  /* Y, Cb and Cr, planar */
-	MDP_IMGTYPE_LIMIT, // Non valid image type after this enum
-	MDP_IMGTYPE2_START = 0x10000,
+	MDP_Y_CRCB_H1V1,  /* Y and CrCb, pseduo planer w/ Cr is in MSB */
+	MDP_Y_CBCR_H1V1,  /* Y and CbCr, pseduo planer w/ Cb is in MSB */
+	MDP_IMGTYPE_LIMIT,
 	MDP_BGR_565 = MDP_IMGTYPE2_START,      /* BGR 565 planer */
 	MDP_FB_FORMAT,    /* framebuffer format */
 	MDP_IMGTYPE_LIMIT2 /* Non valid image type after this enum */
@@ -82,16 +106,23 @@ enum {
 	FB_IMG,
 };
 
-/* flag values */
-#define MDP_ROT_NOP	0
-#define MDP_FLIP_LR	0x1
-#define MDP_FLIP_UD	0x2
-#define MDP_ROT_90	0x4
-#define MDP_ROT_180	(MDP_FLIP_UD|MDP_FLIP_LR)
-#define MDP_ROT_270	(MDP_ROT_90|MDP_FLIP_UD|MDP_FLIP_LR)
-#define MDP_ROT_MASK	0x7
-#define MDP_DITHER	0x8
-#define MDP_BLUR	0x10
+enum {
+	HSIC_HUE = 0,
+	HSIC_SAT,
+	HSIC_INT,
+	HSIC_CON,
+	NUM_HSIC_PARAM,
+};
+
+/* mdp_blit_req flag values */
+#define MDP_ROT_NOP 0
+#define MDP_FLIP_LR 0x1
+#define MDP_FLIP_UD 0x2
+#define MDP_ROT_90 0x4
+#define MDP_ROT_180 (MDP_FLIP_UD|MDP_FLIP_LR)
+#define MDP_ROT_270 (MDP_ROT_90|MDP_FLIP_UD|MDP_FLIP_LR)
+#define MDP_DITHER 0x8
+#define MDP_BLUR 0x10
 #define MDP_BLEND_FG_PREMULT 0x20000
 #define MDP_DEINTERLACE 0x80000000
 #define MDP_SHARPENING  0x40000000
@@ -104,11 +135,15 @@ enum {
 #define MDP_BLIT_SRC_GEM                0x04000000
 #define MDP_BLIT_DST_GEM                0x02000000
 #define MDP_BLIT_NON_CACHED		0x01000000
-#define MDP_OV_PIPE_SHARE 0x00800000
+#define MDP_OV_PIPE_SHARE		0x00800000
 #define MDP_DEINTERLACE_ODD		0x00400000
+#define MDP_OV_PLAY_NOWAIT		0x00200000
+#define MDP_SOURCE_ROTATED_90		0x00100000
+#define MDP_MEMORY_ID_TYPE_FB		0x00001000
+#define MDP_DPP_HSIC			0x00080000
 
-#define MDP_TRANSP_NOP	0xffffffff
-#define MDP_ALPHA_NOP	0xff
+#define MDP_TRANSP_NOP 0xffffffff
+#define MDP_ALPHA_NOP 0xff
 
 #define MDP_FB_PAGE_PROTECTION_NONCACHED         (0)
 #define MDP_FB_PAGE_PROTECTION_WRITECOMBINE      (1)
@@ -152,6 +187,15 @@ struct mdp_ccs {
 	uint16_t bv[MDP_BV_SIZE];	/* 1x3 bias vector */
 };
 
+struct mdp_csc {
+	int id;
+	uint32_t csc_mv[9];
+	uint32_t csc_pre_bv[3];
+	uint32_t csc_post_bv[3];
+	uint32_t csc_pre_lv[6];
+	uint32_t csc_post_lv[6];
+};
+
 /* The version of the mdp_blit_req structure so that
  * user applications can selectively decide which functionality
  * to include
@@ -167,9 +211,7 @@ struct mdp_blit_req {
 	uint32_t alpha;
 	uint32_t transp_mask;
 	uint32_t flags;
-#ifdef CONFIG_MSM_MDP40
 	int sharpening_strength;  /* -127 <--> 127, default 64 */
-#endif
 };
 
 struct mdp_blit_req_list {
@@ -178,15 +220,6 @@ struct mdp_blit_req_list {
 };
 
 #define MSMFB_DATA_VERSION 2
-
-#ifdef CONFIG_MSM_MDP40
-struct mdp_histogram {
-	uint32_t frame_cnt;
-	uint32_t bin_cnt;
-	uint32_t *r;
-	uint32_t *g;
-	uint32_t *b;
-};
 
 struct msmfb_data {
 	uint32_t offset;
@@ -201,12 +234,32 @@ struct msmfb_data {
 struct msmfb_overlay_data {
 	uint32_t id;
 	struct msmfb_data data;
+	uint32_t version_key;
+	struct msmfb_data plane1_data;
+	struct msmfb_data plane2_data;
 };
 
 struct msmfb_img {
 	uint32_t width;
 	uint32_t height;
 	uint32_t format;
+};
+
+#define MSMFB_WRITEBACK_DEQUEUE_BLOCKING 0x1
+struct msmfb_writeback_data {
+	struct msmfb_data buf_info;
+	struct msmfb_img img;
+};
+
+struct dpp_ctrl {
+	/*
+	 *'sharp_strength' has inputs = -128 <-> 127
+	 *  Increasingly positive values correlate with increasingly sharper
+	 *  picture. Increasingly negative values correlate with increasingly
+	 *  smoothed picture.
+	 */
+	int8_t sharp_strength;
+	int8_t hsic_params[NUM_HSIC_PARAM];
 };
 
 struct mdp_overlay {
@@ -220,6 +273,7 @@ struct mdp_overlay {
 	uint32_t flags;
 	uint32_t id;
 	uint32_t user_data[8];
+	struct dpp_ctrl dpp;
 };
 
 struct msmfb_overlay_3d {
@@ -228,19 +282,60 @@ struct msmfb_overlay_3d {
 	uint32_t height;
 };
 
+
 struct msmfb_overlay_blt {
-        uint32_t enable;
-        struct msmfb_data data;
+	uint32_t enable;
+	uint32_t offset;
+	uint32_t width;
+	uint32_t height;
+	uint32_t bpp;
+};
+
+struct mdp_histogram {
+	uint32_t frame_cnt;
+	uint32_t bin_cnt;
+	uint32_t *r;
+	uint32_t *g;
+	uint32_t *b;
 };
 
 struct mdp_page_protection {
 	uint32_t page_protection;
 };
+
+
+struct mdp_mixer_info {
+	int pndx;
+	int pnum;
+	int ptype;
+	int mixer_num;
+	int z_order;
+};
+
+#define MAX_PIPE_PER_MIXER  4
+
+struct msmfb_mixer_info_req {
+	int mixer_num;
+	int cnt;
+	struct mdp_mixer_info info[MAX_PIPE_PER_MIXER];
+};
+
+
 #ifdef __KERNEL__
 
 /* get the framebuffer physical address information */
 int get_fb_phys_info(unsigned long *start, unsigned long *len, int fb_num);
+struct fb_info *msm_fb_get_writeback_fb(void);
+int msm_fb_writeback_init(struct fb_info *info);
+int msm_fb_writeback_register_buffer(struct fb_info *info,
+		struct msmfb_writeback_data *data);
+int msm_fb_writeback_queue_buffer(struct fb_info *info,
+		struct msmfb_data *data);
+int msm_fb_writeback_dequeue_buffer(struct fb_info *info,
+		struct msmfb_data *data);
+int msm_fb_writeback_unregister_buffer(struct fb_info *info,
+		struct msmfb_writeback_data *data);
+int msm_fb_writeback_terminate(struct fb_info *info);
+#endif
 
-#endif
-#endif
-#endif //_MSM_MDP_H_
+#endif /*_MSM_MDP_H_*/

@@ -47,14 +47,30 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/htc/msm7x30-common/media_profiles.xml:system/etc/media_profiles.xml
 
+# Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
-    libaudioutils \
+    libaudioutils
+
+# Video
+PRODUCT_PACKAGES += \
+    copybit.msm7x30 \
     gralloc.msm7x30 \
-    overlay.default \
+    hwcomposer.msm7x30 \
+    libgenlock \
+    libmemalloc \
+    liboverlay \
+    libQcomUI \
+    libtilerenderer
+
+# Omx
+PRODUCT_PACKAGES += \
     libOmxCore \
     libOmxVenc \
-    libOmxVdec \
+    libOmxVdec
+
+# Misc
+PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
 # Live Wallpapers

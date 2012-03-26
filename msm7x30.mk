@@ -64,12 +64,14 @@ PRODUCT_PACKAGES += \
     libQcomUI \
     libtilerenderer
 
-# Media
+# QCOM OMX
 PRODUCT_PACKAGES += \
+    libstagefrighthw \
     libOmxCore \
-    libOmxVenc \
+    libmm-omxcore \
+    libdivxdrmdecrypt \
     libOmxVdec \
-    libstagefrighthw
+    libOmxVenc
 
 # Misc
 PRODUCT_PACKAGES += \

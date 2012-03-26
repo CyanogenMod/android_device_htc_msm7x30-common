@@ -138,10 +138,11 @@ enum {
 #define MDP_OV_PIPE_SHARE		0x00800000
 #define MDP_DEINTERLACE_ODD		0x00400000
 #define MDP_OV_PLAY_NOWAIT		0x00200000
-#define MDP_SOURCE_ROTATED_90		0x00100000
-#define MDP_MEMORY_ID_TYPE_FB		0x00001000
+#define MDP_SOURCE_ROTATED_90	0x00100000
+#define MDP_MEMORY_ID_TYPE_FB	0x00001000
 #define MDP_DPP_HSIC			0x00080000
-
+#define MDP_BORDERFILL_SUPPORTED   0x00010000
+#define MDP_SECURE_OVERLAY_SESSION 0x00008000
 #define MDP_TRANSP_NOP 0xffffffff
 #define MDP_ALPHA_NOP 0xff
 
@@ -234,9 +235,9 @@ struct msmfb_data {
 struct msmfb_overlay_data {
 	uint32_t id;
 	struct msmfb_data data;
-	uint32_t version_key;
+/*	uint32_t version_key;
 	struct msmfb_data plane1_data;
-	struct msmfb_data plane2_data;
+	struct msmfb_data plane2_data;*/
 };
 
 struct msmfb_img {
@@ -273,6 +274,7 @@ struct mdp_overlay {
 	uint32_t flags;
 	uint32_t id;
 	uint32_t user_data[8];
+//
 	struct dpp_ctrl dpp;
 };
 
@@ -297,6 +299,30 @@ struct mdp_histogram {
 	uint32_t *r;
 	uint32_t *g;
 	uint32_t *b;
+};
+
+/*
+
+	mdp_block_type defines the identifiers for each of pipes in MDP 4.3
+
+	MDP_BLOCK_RESERVED is provided for backward compatibility and is
+	deprecated. It corresponds to DMA_P. So MDP_BLOCK_DMA_P should be used
+	instead.
+
+*/
+
+enum {
+	MDP_BLOCK_RESERVED = 0,
+	MDP_BLOCK_OVERLAY_0,
+	MDP_BLOCK_OVERLAY_1,
+	MDP_BLOCK_VG_1,
+	MDP_BLOCK_VG_2,
+	MDP_BLOCK_RGB_1,
+	MDP_BLOCK_RGB_2,
+	MDP_BLOCK_DMA_P,
+	MDP_BLOCK_DMA_S,
+	MDP_BLOCK_DMA_E,
+	MDP_BLOCK_MAX,
 };
 
 struct mdp_page_protection {

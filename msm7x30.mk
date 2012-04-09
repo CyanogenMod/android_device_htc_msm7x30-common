@@ -75,7 +75,8 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
-    com.android.future.usb.accessory
+    com.android.future.usb.accessory \
+    Torch
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \

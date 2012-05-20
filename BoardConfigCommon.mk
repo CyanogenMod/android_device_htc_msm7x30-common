@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
--include device/htc/msm7x30-common/BoardConfigCommon.mk
-
 # inherit from common msm7x30 Recovery
 -include device/htc/7x30-recovery/BoardConfigCommon.mk
 
